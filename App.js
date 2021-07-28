@@ -24,7 +24,7 @@ export default function App() {
     setEndereco(data)
     setLogradouro('Logradouro: ')
     setBairro('Bairro: ')
-    setCidade('Estado: ')
+    setCidade('Cidade: ')
     setEstado('UF: ')
   }
 
