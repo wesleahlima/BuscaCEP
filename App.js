@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   Image,
   StyleSheet,
   Text,
@@ -19,18 +20,25 @@ export default function App() {
   const [cidade, setCidade] = useState('');
   const [estado, setEstado] = useState('');
 
-  const buscar = async () => {
-    const { data } = await api.get(`${CEP}/json/`)
-    setEndereco(data)
-    setLogradouro('Logradouro: ')
-    setBairro('Bairro: ')
-    setCidade('Cidade: ')
-    setEstado('UF: ')
-  }
+  const buscar = () => {
+    try {
+      api.get(`${CEP}/json`).
+        then(({ data }) => {
+          setEndereco(data);
+          setLogradouro('Logradouro: ');
+          setBairro('Bairro: ');
+          setCidade('Cidade: ');
+          setEstado('Estado: ');
+        })
+        .catch((error) => Alert.alert('CEP Inválido', 'Digite um CEP válido.'))
+    } catch (error) {
+      Alert.alert('Erro de Servidor', 'Tente novamente mais tarde.');
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
+      <View style={styles.headerView}>
         <Image source={logo} />
         <Text style={styles.titulo}>Busca CEP</Text>
         <TextInput style={styles.input}
@@ -45,7 +53,7 @@ export default function App() {
           <Text style={styles.textoBotao}>BUSCAR</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.enderecoContainer}>
+      <View style={styles.enderecoView}>
         <Text style={styles.texto}>{logradouro} {endereco.logradouro}</Text>
         <Text style={styles.texto}>{bairro} {endereco.bairro}</Text>
         <Text style={styles.texto}>{cidade} {endereco.localidade}</Text>
@@ -74,11 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
   },
-  enderecoContainer: {
+  enderecoView: {
     alignItems: 'center',
     marginTop: 30,
   },
-  headerContainer: {
+  headerView: {
     alignItems: 'center',
   },
   input: {
