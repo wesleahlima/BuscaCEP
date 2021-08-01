@@ -15,25 +15,14 @@ export default function App() {
 
   const [CEP, setCEP] = useState('');
   const [endereco, setEndereco] = useState([]);
-  const [logradouro, setLogradouro] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [estado, setEstado] = useState('');
 
   const buscar = () => {
-    try {
-      api.get(`${CEP}/json`).
-        then(({ data }) => {
-          setEndereco(data);
-          setLogradouro('Logradouro: ');
-          setBairro('Bairro: ');
-          setCidade('Cidade: ');
-          setEstado('Estado: ');
-        })
-        .catch((error) => Alert.alert('CEP Inválido', 'Digite um CEP válido.'))
-    } catch (error) {
-      Alert.alert('Erro de Servidor', 'Tente novamente mais tarde.');
-    }
+    api
+      .get(`${CEP}/json`)
+      .then(({ data }) => {
+        setEndereco(data)
+      })
+      .catch((error) => Alert.alert('CEP Inválido', 'Digite um CEP válido.'))
   };
 
   return (
@@ -54,10 +43,10 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <View style={styles.enderecoView}>
-        <Text style={styles.texto}>{logradouro} {endereco.logradouro}</Text>
-        <Text style={styles.texto}>{bairro} {endereco.bairro}</Text>
-        <Text style={styles.texto}>{cidade} {endereco.localidade}</Text>
-        <Text style={styles.texto}>{estado} {endereco.uf}</Text>
+        <Text style={styles.texto}>{endereco.logradouro}</Text>
+        <Text style={styles.texto}>{endereco.bairro}</Text>
+        <Text style={styles.texto}>{endereco.localidade}</Text>
+        <Text style={styles.texto}>{endereco.uf}</Text>
       </View>
     </View>
   );
