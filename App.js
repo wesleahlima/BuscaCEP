@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Alert,
   Image,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,50 +10,61 @@ import {
   View
 } from 'react-native';
 import logo from './src/assets/logo.png';
+import axios from 'axios';
 
 export default function App() {
+  
   const [CEP, setCEP] = useState('');
+  const [logradouro, setLogradouro] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [localidade, setLocalidade] = useState('');
+  const [UF, setUF] = useState('');
+  const [IBGE, setIBGE] = useState('');
+  const [DDD, setDDD] = useState('');
   const [endereco, setEndereco] = useState([]);
 
-  const buscar = () => {
-    fetch(`https://viacep.com.br/ws/${CEP}/json/`)
-      .then((response) => response.json())
-      .then((json) => setEndereco(json))
-      .catch((error) => Alert.alert(error))
+  const getAdress = async () => {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${CEP}/json/`);
+      const data = await response.data;
+      setLogradouro('Logradouro: ');
+      setBairro('Bairro: ');
+      setLocalidade('Cidade: ');
+      setUF('UF: ');
+      setIBGE('IBGE: ');
+      setDDD('DDD: ');
+      setEndereco(data);
+    } catch (error) {
+      Alert.alert(`${error}. Tente novamente mais tarde.`)
+    }
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <StatusBar backgroundColor="#2F48D4" barStyle="light-content"  />
-        <View style={styles.headerView}>
-          <Image source={logo} />
-          <Text style={styles.titulo}>Busca CEP</Text>
-          <TextInput style={styles.input}
-            keyboardType="number-pad"
-            maxLength={8}
-            onChangeText={txtCep => setCEP(txtCep)}
-            placeholder="Digite o CEP que deseja buscar"
-            placeholderTextColor="#2F48D4"
-          />
-          <TouchableOpacity style={styles.botao}
-            onPress={buscar}>
-            <Text style={styles.textoBotao}>BUSCAR</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.enderecoView}>
-          <Text style={styles.texto}>CEP: {endereco.cep}</Text>
-          <Text style={styles.texto}>Logradouro: {endereco.logradouro}</Text>
-          <Text style={styles.texto}>Complemento: {endereco.complemento}</Text>
-          <Text style={styles.texto}>Bairro: {endereco.bairro}</Text>
-          <Text style={styles.texto}>Localidade: {endereco.localidade}</Text>
-          <Text style={styles.texto}>UF: {endereco.uf}</Text>
-          <Text style={styles.texto}>IBGE: {endereco.ibge}</Text>
-          <Text style={styles.texto}>GIA: {endereco.gia}</Text>
-          <Text style={styles.texto}>DDD: {endereco.ddd}</Text>
-          <Text style={styles.texto}>SIAFI: {endereco.siafi}</Text>
-        </View>
-      </ScrollView>
+      <StatusBar backgroundColor="#2F48D4" barStyle="light-content" />
+      <View style={styles.headerView}>
+        <Image source={logo} />
+        <Text style={styles.titulo}>Busca CEP</Text>
+        <TextInput style={styles.input}
+          keyboardType="number-pad"
+          maxLength={8}
+          onChangeText={value => setCEP(value)}
+          placeholder="Digite o CEP que deseja buscar"
+          placeholderTextColor="#2F48D4"
+        />
+        <TouchableOpacity style={styles.botao}
+          onPress={getAdress}>
+          <Text style={styles.textoBotao}>Buscar</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.enderecoView}>
+        <Text style={styles.texto}>{logradouro} {endereco.logradouro}</Text>
+        <Text style={styles.texto}>{bairro} {endereco.bairro}</Text>
+        <Text style={styles.texto}>{localidade} {endereco.localidade}</Text>
+        <Text style={styles.texto}>{IBGE} {endereco.ibge}</Text>
+        <Text style={styles.texto}>{DDD} {endereco.ddd}</Text>
+        <Text style={styles.texto}>{UF} {endereco.uf}</Text>
+      </View>
     </View>
   );
 }
@@ -101,14 +111,14 @@ const styles = StyleSheet.create({
     color: '#2F48D4',
     fontSize: 17,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   enderecoView: {
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 15,
   },
   texto: {
     color: '#F6E125',
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
