@@ -13,57 +13,60 @@ import logo from './src/assets/logo.png';
 import axios from 'axios';
 
 export default function App() {
-  
-  const [CEP, setCEP] = useState('');
-  const [logradouro, setLogradouro] = useState('');
+  const [cep, setCep] = useState('');
   const [bairro, setBairro] = useState('');
   const [localidade, setLocalidade] = useState('');
-  const [UF, setUF] = useState('');
-  const [IBGE, setIBGE] = useState('');
-  const [DDD, setDDD] = useState('');
+  const [uf, setUf] = useState('');
+  const [ibge, setIbge] = useState('');
+  const [ddd, setDdd] = useState('');
   const [endereco, setEndereco] = useState([]);
 
   const getAdress = async () => {
     try {
-      const response = await axios.get(`https://viacep.com.br/ws/${CEP}/json/`);
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.data;
-      setLogradouro('Logradouro: ');
-      setBairro('Bairro: ');
-      setLocalidade('Cidade: ');
-      setUF('UF: ');
-      setIBGE('IBGE: ');
-      setDDD('DDD: ');
-      setEndereco(data);
+
+      if (data.erro) {
+        Alert.alert('CEP Inválido', 'Digite um CEP válido')
+      } else {
+        setBairro('Bairro: ');
+        setLocalidade('Cidade: ');
+        setUf('UF: ');
+        setIbge('IBGE: ');
+        setDdd('DDD: ');
+        setEndereco(data);
+      }
     } catch (error) {
-      Alert.alert(`${error}. Tente novamente mais tarde.`)
+      Alert.alert('CEP Inválido', 'Digite um CEP válido')
     }
   };
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#2F48D4" barStyle="light-content" />
-      <View style={styles.headerView}>
+      <View style={styles.buscaContainer}>
         <Image source={logo} />
         <Text style={styles.titulo}>Busca CEP</Text>
         <TextInput style={styles.input}
           keyboardType="number-pad"
           maxLength={8}
-          onChangeText={value => setCEP(value)}
+          onChangeText={value => setCep(value)}
           placeholder="Digite o CEP que deseja buscar"
           placeholderTextColor="#2F48D4"
         />
-        <TouchableOpacity style={styles.botao}
+        <TouchableOpacity
+          style={styles.botao}
           onPress={getAdress}>
           <Text style={styles.textoBotao}>Buscar</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.enderecoView}>
-        <Text style={styles.texto}>{logradouro} {endereco.logradouro}</Text>
+      <View style={styles.enderecoContainer}>
+        <Text style={styles.texto}>{endereco.logradouro}</Text>
         <Text style={styles.texto}>{bairro} {endereco.bairro}</Text>
         <Text style={styles.texto}>{localidade} {endereco.localidade}</Text>
-        <Text style={styles.texto}>{IBGE} {endereco.ibge}</Text>
-        <Text style={styles.texto}>{DDD} {endereco.ddd}</Text>
-        <Text style={styles.texto}>{UF} {endereco.uf}</Text>
+        <Text style={styles.texto}>{ibge} {endereco.ibge}</Text>
+        <Text style={styles.texto}>{ddd} {endereco.ddd}</Text>
+        <Text style={styles.texto}>{uf} {endereco.uf}</Text>
       </View>
     </View>
   );
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  headerView: {
+  buscaContainer: {
     alignItems: 'center',
   },
   titulo: {
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
-  enderecoView: {
+  enderecoContainer: {
     alignItems: 'center',
     marginTop: 15,
   },
