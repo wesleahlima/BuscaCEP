@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "BuscaCep",
-    "slug": "BuscaCep",
+    "name": "busca-cep",
+    "slug": "busca-cep",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
