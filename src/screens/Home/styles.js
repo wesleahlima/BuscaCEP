@@ -26,7 +26,7 @@ export const Input = styled.TextInput`
     background-color: #FFF;
     border-radius: 5px;
     color: #2F48D4;
-    font-family: Roboto_300Light;
+    font-family: Roboto_500Medium;
     font-size: 16px;
     height: 40px;
     margin-top: 20px;
@@ -52,15 +52,16 @@ export const ButtonText = styled.Text`
     font-family: Roboto_500Medium;
     font-size: 18px;
     font-weight: bold;
+    text-transform: uppercase;
 `;
 
-export const AdressArea = styled.View`
+export const AddressArea = styled.View`
     align-items: center;
     margin-top: 15px;
 `;
 
 export const Text = styled.Text`
     color: #F6E125;
-    font-family: Roboto_300Light;
+    font-family: Roboto_500Medium;
     font-size: 18px;
 `;
