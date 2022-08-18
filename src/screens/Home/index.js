@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Alert, Image } from 'react-native';
-
 import {
     Container,
     Animation,
-    Title,
     Input,
     Button,
     ButtonText,
@@ -19,20 +17,18 @@ export default function Home() {
     const [address, setAddress] = useState(null);
 
     async function handleBuscar() {
-
         try {
             const { status, data } = await api.get(`${cep}/json/`);
 
-            if (status !== 200 || data.erro) {
-                Alert.alert('CEP Inválido', 'Digite um CEP válido');
+            if (status != 200 || data.erro) {
+                Alert.alert('Buscar', 'Digite um CEP válido.');
             } else {
                 setAddress(data);
             }
 
         } catch (error) {
-            Alert.alert('CEP Inválido', 'Digite um CEP válido');
+            Alert.alert('Buscar', 'Digite um CEP válido');
         }
-
     };
 
     async function handleLimpar() {
@@ -48,8 +44,6 @@ export default function Home() {
                 duration={1500}
             >
                 <Image source={logo} />
-
-                <Title>Busca CEP</Title>
             </Animation>
 
             <Animation
@@ -57,7 +51,7 @@ export default function Home() {
                 delay={100}
                 duration={1500}
             >
-                {address === null &&
+                {!address &&
                     <Input
                         keyboardType="numeric"
                         maxLength={8}
@@ -70,13 +64,15 @@ export default function Home() {
                 }
 
                 <Button
-                    activityOpacity={0.7}
-                    onPress={address !== null ? handleLimpar : handleBuscar}>
-                    <ButtonText>{address !== null ? 'Limpar' : 'Buscar'}</ButtonText>
+                    activeOpacity={0.8}
+                    onPress={address ? handleLimpar : handleBuscar}>
+                    <ButtonText>
+                        {address ? 'Limpar' : 'Buscar'}
+                    </ButtonText>
                 </Button>
             </Animation>
 
-            {address !== null &&
+            {address &&
                 <AddressArea>
                     <Text>CEP: {cep}</Text>
                     <Text>{address.logradouro}</Text>
