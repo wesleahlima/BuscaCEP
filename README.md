@@ -25,7 +25,7 @@ https://github.com/wesleylimadeveloper/find-cep.git
 Entrar na pasta do projeto:
 cd find-cep
 
-Instalar dependência:
+Instalar dependências:
 npm install
 
 Executar o projeto:
