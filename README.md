@@ -3,7 +3,7 @@
 Aplicativo mobile simples, desenvolvido em React Native utilizando o cliente HTTP Axios para buscar o CEP na API ViaCep (https://viacep.com.br/).
 
 <div style="display: inline_block"><br>
-    <img align="center" height=405 width=200 alt="screenshot(1)" src="https://github.com/wesleylimadeveloper/find-cep/blob/main/assets/screenshot(1).jpg" />
+    <img align="center" margin-bottom=10px height=405 width=200 alt="screenshot(1)" src="https://github.com/wesleylimadeveloper/find-cep/blob/main/assets/screenshot(1).jpg" />
     <img align="center" height=405 width=200 alt="screenshot(2)" src="https://github.com/wesleylimadeveloper/find-cep/blob/main/assets/screenshot(2).jpg" />
 </div>
 
